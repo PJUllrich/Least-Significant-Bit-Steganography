@@ -74,11 +74,8 @@ public class Main {
                 int start = row * picture.getWidth() + column * 8;
                 int end = start + 8;
 
-
-
                 String messageBlock;
                 if (end < binaryMessage.length()) {
-                    System.out.println(start + " " + end);
                     messageBlock = binaryMessage.substring(start, end);
                 } else {
                     messageBlock = "11111111";
@@ -92,10 +89,6 @@ public class Main {
                 String originalGreen = fillString(Integer.toBinaryString(oldColor.getGreen()));
                 String originalBlue = fillString(Integer.toBinaryString(oldColor.getBlue()));
                 String originalAlpha = fillString(Integer.toBinaryString(oldColor.getAlpha()));
-
-                if (end == 2376) {
-                    System.out.println("break here");
-                }
 
                 String changedRed = originalRed.substring(0, 6) + messageBlock.substring(0, 2);
                 String changedGreen = originalGreen.substring(0, 6) + messageBlock.substring(2, 4);
@@ -146,10 +139,10 @@ public class Main {
         return out;
     }
 
-    private String fillString(String temp) {
-        for (int i = temp.length(); i < 8; i++)
-            temp = "0" + temp;
+    private String fillString(String input) {
+        for (int i = input.length(); i < 8; i++)
+            input = "0" + input;
 
-        return temp;
+        return input;
     }
 }
