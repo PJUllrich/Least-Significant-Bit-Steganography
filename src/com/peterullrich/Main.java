@@ -95,15 +95,15 @@ public class Main {
                 String changedBlue = originalBlue.substring(0, 6) + messageBlock.substring(4, 6);
                 String changedAlpha = originalAlpha.substring(0, 6) + messageBlock.substring(6);
 
-                int newRed = Integer.parseInt(changedRed);
-                int newGreen = Integer.parseInt(changedGreen);
-                int newBlue = Integer.parseInt(changedBlue);
-                int newAlpha = Integer.parseInt(changedAlpha);
+                int newRed = Integer.parseInt(changedRed, 2);
+                int newGreen = Integer.parseInt(changedGreen, 2);
+                int newBlue = Integer.parseInt(changedBlue, 2);
+                int newAlpha = Integer.parseInt(changedAlpha, 2);
 
-                newRed = newRed > 255 ? 255 : newRed;
-                newGreen = newGreen > 255 ? 255 : newGreen;
-                newBlue = newBlue > 255 ? 255 : newBlue;
-                newAlpha = newAlpha > 255 ? 255 : newAlpha;
+                newRed = newRed < 255 ? newRed : 255;
+                newGreen = newGreen < 255 ? newGreen : 255;
+                newBlue = newBlue < 255 ? newBlue : 255;
+                newAlpha = newAlpha < 255 ? newAlpha : 255;
 
                 Color color = new Color(newRed, newGreen, newBlue, newAlpha);
                 picture.setRGB(column, row, color.getRGB());
