@@ -20,7 +20,13 @@ public class Main {
         BufferedImage image = null;
         Boolean decrypt = false;
 
+        if (args.length == 0) {
+            System.out.println("Please read the enclosed readme text file in order to get an overview of the possible commands.");
+            System.exit(1);
+        }
+
         for (int i = 0; i < args.length; i++) {
+
             if (args[i].equals("-m"))
                 message = args[i+1];
 
@@ -30,14 +36,14 @@ public class Main {
             if (args[i].equals("-f"))
                 message = readFile(args[i + 1]);
 
-            if (args[i].equals("-d"))
+            if (args[i].equals("-r"))
                 decrypt = true;
         }
 
         if (image != null) {
             new Main(message, image, decrypt);
         } else {
-            System.err.println("Could not read in the necessary input image.");
+            System.err.println("Please give me an image to work with! (e.g. example.png)");
             System.exit(-1);
         }
     }
