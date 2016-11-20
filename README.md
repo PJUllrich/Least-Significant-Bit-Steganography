@@ -12,6 +12,7 @@ And then retrieve that message again with:  *-r output.png*
 If you feel like it you can contribute by: <br>
 
 - Adding support for different text file formats (e.g. UTF-16, ASCII)
+- Have a look how page-breaks can be added to the image as well. Right now, the retrieved text is only a long line of characters.
 - Tell me how to add syntactic sugar to my code (highly appreciated!)
 - Let the program add the message not only to the pixels from top left to bottom right, but by using different patterns (e.g. sinus-waves)
 - Add some statistical output for the distribution of color component values. This is important as one can easily tell whether an image contains a message by looking at that distribution (somehow, dunno how exactly).
