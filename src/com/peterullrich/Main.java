@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 public class Main {
 
+    /**
+     * Reads in the input parameters and starts the process by creating a Main object.
+     * @param args  input parameters
+     */
     public static void main(String[] args) {
         String message = "";
         BufferedImage image = null;
@@ -38,6 +42,15 @@ public class Main {
         }
     }
 
+    /**
+     * Loads an image from the given input path.
+     * It is important that the BufferedImage received from the ImageIO.read() function
+     * has a ColorModel which does not support the saving of alpha channels. Therefore
+     * we have to create a new BufferedImage with a different ColorModel that supports
+     * changing the alpha channel.
+     * @param input     path to image
+     * @return          BufferedImage of image
+     */
     private static BufferedImage loadImage(String input) {
         try {
             File file = new File(input);
@@ -58,6 +71,11 @@ public class Main {
         return null;
     }
 
+    /**
+     * Reads the input text from the file and saves it as a String.
+     * @param input     the path to the input text file
+     * @return          a String of the text of the input text file
+     */
     private static String readFile(String input) {
         try {
             FileReader fileReader = new FileReader(input);
@@ -76,6 +94,13 @@ public class Main {
         return null;
     }
 
+    /**
+     * Is created to start the main processes, which are either retrieving or adding
+     * a message to an image.
+     * @param secretMessage     The message that should be added to the image.
+     * @param image             The path to the input image
+     * @param decrypt           A flag for whether the image should be decrypted.
+     */
     private Main(String secretMessage, BufferedImage image, Boolean decrypt) {
         if (decrypt) {
             this.retrieveMessageFromImage(image);
@@ -84,6 +109,13 @@ public class Main {
         }
     }
 
+    /**
+     * Retrieves a message from a given input image by collecting the last 2 bits
+     * of each Red, Green, Blue, and Alpha component of each pixel starting at the
+     * top left of the picture. The retrieval process stops once the end block, which is
+     * "11111111" is encountered. The message is then saved to a text file.
+     * @param image     The input image as a BufferedImage
+     */
     private void retrieveMessageFromImage(BufferedImage image) {
         String retrievedMessage = "";
 
@@ -109,6 +141,12 @@ public class Main {
         saveText(retrievedMessage);
     }
 
+    /**
+     * Retrieves the last 2 bits of the Red, Green, Blue, and Alpha channel of a
+     * given ArrayList containing the values for these channels as a binary String.
+     * @param rgba      The binary strings of the Red, Green, Glue, and Alpha channels of a pixel
+     * @return          A concatenation of all last 2 bits of the binary strings.
+     */
     private String retrieveLastBinaryPair(ArrayList<String> rgba) {
         String out = "";
 
@@ -118,6 +156,15 @@ public class Main {
         return out;
     }
 
+    /**
+     * The main method to add a message to an image. It runs through every pixel starting
+     * at the top left and adds a character represented by 8 bits to the 4 color channels
+     * (Red, Green, Blue, Alpha) of the pixel. It replaces the last 2 bits of the binary value
+     * for each channel by 2 bits of the character binaries. The adding process is finished
+     * by adding an end block of "11111111" to a pixel.
+     * @param secretMessage     The message to add to the image.
+     * @param image             The image as BufferedImage to which the message is added.
+     */
     private void addMessageToImage(String secretMessage, BufferedImage image) {
         String binaryMessage = this.convertStringToBinary(secretMessage);
         Boolean endBlockAppended = false;
@@ -160,6 +207,14 @@ public class Main {
         this.saveImage(image);
     }
 
+    /**
+     * Checks whether the changed values of the color components are larger than 255.
+     * If they are they are replaced with 255. This functions as a safeguard in case something
+     * goes wrong somewhere else as the maximum value of an 8 bit Integer representation can
+     * only be 255 max. However, I left this in for safety reasons.
+     * @param input     The changed color component values as Integers.
+     * @return          Color component values which are not larger than 255.
+     */
     private ArrayList<Integer> checkMaxValuesOfComponents(ArrayList<Integer> input) {
         for (Integer e : input)
             input.set(input.indexOf(e), e < 255 ? e : 255);
@@ -167,6 +222,11 @@ public class Main {
         return input;
     }
 
+    /**
+     * Converts an ArrayList of Binaries as Strings to an ArrayList of their Integer values.
+     * @param input     An ArrayList of color component values as binaries as strings.
+     * @return          An ArrayList of color component values as Integers.
+     */
     private ArrayList<Integer> rgbaToInt(ArrayList<String> input) {
         ArrayList<Integer> out = new ArrayList<>();
 
@@ -176,6 +236,11 @@ public class Main {
         return out;
     }
 
+    /**
+     * Converts the Integer values of the color components to Binary values as Strings.
+     * @param color     The color which color components are wanted.
+     * @return          An ArrayList of Strings containing the color component values as binaries.
+     */
     private ArrayList<String> getColorBinaries(Color color) {
         ArrayList<String> out = new ArrayList<>();
         out.add(intToBinaryString(color.getRed()));
@@ -186,6 +251,10 @@ public class Main {
         return out;
     }
 
+    /**
+     * Saves a BufferedImage to a .png file at the location of this program.
+     * @param image     The BufferedImage to be saved.
+     */
     private void saveImage(BufferedImage image) {
         try {
             File output = new File("output.png");
@@ -197,6 +266,10 @@ public class Main {
         }
     }
 
+    /**
+     * Saves a String to a .txt file at the location of this program.
+     * @param text      The String to be saved.
+     */
     private void saveText(String text) {
         try {
             File output = new File("retrieved-text.txt");
@@ -219,6 +292,11 @@ public class Main {
         }
     }
 
+    /**
+     * Converts a String of Characters to a String of their values as Binaries.
+     * @param input     The String to be converted.
+     * @return          A String containing the binary values of the input characters.
+     */
     private String convertStringToBinary(String input) {
         String out = "";
 
@@ -231,10 +309,23 @@ public class Main {
         return out;
     }
 
+    /**
+     * Converts an Integer to a Binary String.
+     * @param input     The Integer to be converted.
+     * @return          A String containing the binary value of the input Integer.
+     */
     private String intToBinaryString(int input) {
         return fillString(Integer.toBinaryString(input));
     }
 
+    /**
+     * Adds 0's to the beginning of a String of binaries to ensure that the string
+     * is exactly 8 bits long. This is necessary as the Integer.toBinaryString() does not always
+     * return a String with 8 bits. The leading bits are omitted from the Integer function if
+     * they are 0's.
+     * @param input     A String of bits.
+     * @return          A String of exactly 8 bits.
+     */
     private String fillString(String input) {
         for (int i = input.length(); i < 8; i++)
             input = "0" + input;
