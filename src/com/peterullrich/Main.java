@@ -38,14 +38,6 @@ public class Main {
         }
     }
 
-    /**
-     * Loads the given image to a BufferedImage.
-     * It is important to not that we make a deepCopy of the
-     * BufferedImage of the ImagaeIO.read() function. This is
-     * necessary as the output of ImageIO.read() gives a BufferedImage
-     * which has premultiplied Alpha values. This denies us to save
-     * the changed alpha values back to the image.
-     */
     private static BufferedImage loadImage(String input) {
         try {
             File file = new File(input);
@@ -95,6 +87,7 @@ public class Main {
     private void retrieveMessageFromImage(BufferedImage image) {
         String retrievedMessage = "";
 
+        outerloop:
         for (int row = 0; row < image.getHeight(); row++) {
             for (int column = 0; column < image.getWidth(); column++) {
                 int rgb = image.getRGB(column, row);
@@ -105,7 +98,7 @@ public class Main {
                 String block = retrieveLastBinaryPair(rgba);
 
                 if (block.equals("11111111")) {
-                    break;
+                    break outerloop;
                 } else {
                     int charCode = Integer.parseInt(block, 2);
                     retrievedMessage += Character.toString((char) charCode);
@@ -129,6 +122,7 @@ public class Main {
         String binaryMessage = this.convertStringToBinary(secretMessage);
         Boolean endBlockAppended = false;
 
+        outerloop:
         for (int row = 0; row < image.getHeight(); row++) {
             for (int column = 0; column < image.getWidth(); column++) {
 
@@ -159,7 +153,7 @@ public class Main {
                 image.setRGB(column, row, newColor.getRGB());
 
                 if (endBlockAppended)
-                    break;
+                    break outerloop;
             }
         }
 
@@ -229,8 +223,8 @@ public class Main {
         String out = "";
 
         char[] charMessage = input.toCharArray();
-        for (int c = 0; c < charMessage.length; c++){
-            String temp = Integer.toBinaryString(charMessage[c]);
+        for (char c : charMessage){
+            String temp = Integer.toBinaryString(c);
             out += fillString(temp);
         }
 
