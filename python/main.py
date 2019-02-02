@@ -1,6 +1,6 @@
-from cryptor import Cryptor
+from lsb import LSB
 from parser import parser
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    Cryptor.handle(args)
+    LSB.handle(args)
