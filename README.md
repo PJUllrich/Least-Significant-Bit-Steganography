@@ -1,12 +1,13 @@
-# Least Significant Bit Steganography
+# Least Significant Bit Stenography
 
-This video of Computerphile (https://www.youtube.com/watch?v=TWEXCYQKyDc) inspired me to write my own
+This video of [Computerphile](https://www.youtube.com/watch?v=TWEXCYQKyDc) 
+inspired me to write my own
 little program to add a message to the least significant bits of an image (i.e. the last 2 bits of the binary values of the color components of a pixel).
 
 This project does only support input text files in **UTF-8** format and its output pictures are in a .png format. 
 It is small and not fault-proof, but it works! (kind of). 
 
-simply run it with the parameters:          *-f exampleTextShort.txt example.png*<br>
+simply run it with the parameters:          *-f exampleText.txt example.png*<br>
 And then retrieve that message again with:  *-r output.png*
 
 If you feel like it you can contribute by: <br>
